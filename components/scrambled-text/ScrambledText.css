@@ -1,0 +1,34 @@
+.text-block {
+  margin: 0;
+  max-width: none;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+
+.text-block.about-scrambled {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: clamp(1.125rem, 2.8vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.92);
+  letter-spacing: -0.02em;
+  text-align: left;
+}
+
+.text-block.about-scrambled .scramble-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.text-block p {
+  margin: 0;
+}
+
+.char {
+  will-change: transform;
+  display: inline-block;
+}
