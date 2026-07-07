@@ -40,7 +40,7 @@ export function Contact() {
             trigger="hover"
             backgroundColor="transparent"
             wireframes={false}
-            gravity={0.56}
+            gravity={1.4}
             fontSize="clamp(2.5rem,8vw,6rem)"
             mouseConstraintStiffness={0.9}
           />
