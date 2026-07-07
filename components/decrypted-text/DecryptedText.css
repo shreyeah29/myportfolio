@@ -1,0 +1,34 @@
+.contact-decrypted-heading {
+  font-family: var(--font-syne), system-ui, sans-serif;
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  cursor: default;
+}
+
+.contact-decrypted-line {
+  display: block;
+}
+
+.contact-decrypted-static {
+  color: #ffffff;
+}
+
+.contact-decrypted-revealed {
+  color: #ffffff;
+}
+
+.contact-decrypted-encrypted {
+  color: rgba(255, 255, 255, 0.28);
+}
+
+.contact-decrypted-accent.contact-decrypted-revealed,
+.contact-decrypted-accent.contact-decrypted-encrypted {
+  color: var(--accent);
+}
+
+.contact-decrypted-accent.contact-decrypted-encrypted {
+  opacity: 0.45;
+}

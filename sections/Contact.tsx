@@ -3,7 +3,8 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { SectionLabel } from "@/components/shared/SectionLabel";
-import FallingText from "@/components/falling-text/FallingText";
+import DecryptedText from "@/components/decrypted-text/DecryptedText";
+import "@/components/decrypted-text/DecryptedText.css";
 import { SITE } from "@/lib/constants";
 
 export function Contact() {
@@ -33,17 +34,24 @@ export function Contact() {
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="mb-16"
         >
-          <FallingText
-            text={"Let’s build something beautiful."}
-            highlightWords={["beautiful"]}
-            highlightClass="highlighted"
-            trigger="hover"
-            backgroundColor="transparent"
-            wireframes={false}
-            gravity={1.4}
-            fontSize="clamp(2.5rem,8vw,6rem)"
-            mouseConstraintStiffness={0.9}
-          />
+          <div className="contact-decrypted-heading">
+            <span className="contact-decrypted-line contact-decrypted-static">
+              Let&apos;s build
+            </span>
+            <span className="contact-decrypted-line">
+              <span className="contact-decrypted-static">something </span>
+              <DecryptedText
+                text="beautiful."
+                animateOn="view"
+                sequential
+                speed={220}
+                revealDirection="start"
+                useOriginalCharsOnly
+                className="contact-decrypted-revealed contact-decrypted-accent"
+                encryptedClassName="contact-decrypted-encrypted contact-decrypted-accent"
+              />
+            </span>
+          </div>
         </motion.div>
 
         <motion.div
