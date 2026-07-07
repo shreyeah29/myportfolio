@@ -15,9 +15,9 @@ export function Navbar() {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, delay: 0.2 }}
-        className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-black/80 backdrop-blur-sm"
+        className="fixed top-0 right-0 left-0 z-50 border-b border-white/5 bg-black/80 pt-[env(safe-area-inset-top)] backdrop-blur-sm"
       >
-        <nav className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-4 md:px-8">
+        <nav className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-3.5 md:px-8 md:py-4">
           <Link href="#" className="group" data-cursor="pointer">
             <p className="text-sm font-bold uppercase tracking-wide text-white md:text-base">
               {SITE.name}

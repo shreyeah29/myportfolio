@@ -1,0 +1,38 @@
+.falling-text-container {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+  overflow: hidden;
+  user-select: none;
+}
+
+.falling-text-target {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  font-family: var(--font-syne), system-ui, sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  color: #fff;
+}
+
+.falling-text-container .word {
+  display: inline-block;
+  margin: 0 0.12em;
+  user-select: none;
+  will-change: transform, left, top;
+}
+
+.falling-text-container .highlighted {
+  color: var(--accent);
+}
+
+.falling-text-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+

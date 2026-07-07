@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { SectionLabel } from "@/components/shared/SectionLabel";
+import FallingText from "@/components/falling-text/FallingText";
 import { SITE } from "@/lib/constants";
 
 export function Contact() {
@@ -32,13 +33,17 @@ export function Contact() {
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="mb-16"
         >
-          <h2 className="text-[clamp(2.5rem,8vw,6rem)] font-bold uppercase leading-[0.95] tracking-tighter text-white">
-            Let&apos;s build
-            <br />
-            something{" "}
-            <span className="text-accent">beautiful</span>
-            <span className="text-accent">.</span>
-          </h2>
+          <FallingText
+            text={"Let’s build something beautiful."}
+            highlightWords={["beautiful"]}
+            highlightClass="highlighted"
+            trigger="hover"
+            backgroundColor="transparent"
+            wireframes={false}
+            gravity={0.56}
+            fontSize="clamp(2.5rem,8vw,6rem)"
+            mouseConstraintStiffness={0.9}
+          />
         </motion.div>
 
         <motion.div
@@ -60,10 +65,10 @@ export function Contact() {
             />
           </a>
 
-          <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
+          <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:gap-8">
             <a
               href={`mailto:${SITE.email}`}
-              className="border-b border-white/30 pb-0.5 text-sm text-white/50 transition-colors hover:text-white"
+              className="break-all border-b border-white/30 pb-0.5 text-sm text-white/50 transition-colors hover:text-white sm:break-normal"
               data-cursor="pointer"
             >
               {SITE.email}

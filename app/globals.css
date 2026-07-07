@@ -27,6 +27,8 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -48,7 +50,14 @@ body {
   color: var(--foreground);
   font-family: var(--font-mono), ui-monospace, monospace;
   overflow-x: hidden;
+  min-height: 100dvh;
   cursor: none;
+}
+
+@media (max-width: 768px) {
+  .text-block.about-scrambled .scramble-word {
+    white-space: normal;
+  }
 }
 
 @media (max-width: 768px) {

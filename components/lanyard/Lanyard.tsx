@@ -27,6 +27,10 @@ const LANYARD_PNG = "/lanyard/lanyard.png";
 const BLANK_PIXEL =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==";
 
+function isFiniteVec3(v: { x: number; y: number; z: number }) {
+  return Number.isFinite(v.x) && Number.isFinite(v.y) && Number.isFinite(v.z);
+}
+
 const FRONT_UV_RECT = { x: 0, y: 0, w: 0.5, h: 0.755 };
 const BACK_UV_RECT = { x: 0.5, y: 0, w: 0.5, h: 0.757 };
 
@@ -88,8 +92,8 @@ export default function Lanyard({
       <Canvas
         camera={{ position, fov }}
         dpr={[1, isMobile ? 1.5 : 2]}
-        gl={{ alpha: transparent, antialias: true }}
-        style={{ width: "100%", height: "100%", display: "block" }}
+        gl={{ alpha: transparent, antialias: true, powerPreference: "high-performance" }}
+        style={{ width: "100%", height: "100%", display: "block", background: "transparent" }}
         onCreated={({ gl }) => {
           gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1);
         }}
@@ -162,18 +166,42 @@ function Band({
   const texture = useTexture(lanyardImage || LANYARD_PNG);
   const frontTex = useTexture(frontImage || BLANK_PIXEL);
   const backTex = useTexture(backImage || BLANK_PIXEL);
+  const [photoLoaded, setPhotoLoaded] = useState(false);
+
+  useEffect(() => {
+    const img = frontTex.image as HTMLImageElement | undefined;
+    if (!img) return;
+
+    const markLoaded = () => {
+      if (img.naturalWidth > 1) setPhotoLoaded(true);
+    };
+
+    if (img.complete) {
+      markLoaded();
+      return;
+    }
+
+    img.addEventListener("load", markLoaded);
+    return () => img.removeEventListener("load", markLoaded);
+  }, [frontTex]);
 
   const cardMap = useMemo(() => {
     const baseMap = materials.base.map;
     if (!baseMap) return baseMap;
 
+    const photoImg = frontTex.image as HTMLImageElement | undefined;
+    const photoReady =
+      photoLoaded &&
+      photoImg &&
+      photoImg.complete &&
+      photoImg.naturalWidth > 1;
+
     if (
       cardVariant === "shrelab" &&
       frontImage &&
-      frontTex.image &&
-      (frontTex.image as HTMLImageElement).width > 1
+      photoReady
     ) {
-      return buildShreLabCardMap(baseMap, frontTex.image as HTMLImageElement);
+      return buildShreLabCardMap(baseMap, photoImg);
     }
 
     if (!frontImage && !backImage) return baseMap;
@@ -232,6 +260,7 @@ function Band({
     backTex,
     materials.base.map,
     cardVariant,
+    photoLoaded,
   ]);
 
   const [curve] = useState(
@@ -278,34 +307,50 @@ function Band({
     }
 
     if (fixed.current && j1.current && j2.current && j3.current && card.current) {
+      const j3Pos = j3.current.translation();
+      const fixedPos = fixed.current.translation();
+
+      if (!isFiniteVec3(j3Pos) || !isFiniteVec3(fixedPos)) {
+        return;
+      }
+
       [j1, j2].forEach((ref) => {
         const body = ref.current!;
-        const lerpedKey = "lerped" as const;
         type BodyWithLerp = RapierRigidBody & { lerped?: THREE.Vector3 };
         const bodyL = body as BodyWithLerp;
+        const translation = body.translation();
+        if (!isFiniteVec3(translation)) return;
+
         if (!bodyL.lerped) {
-          bodyL.lerped = new THREE.Vector3().copy(body.translation());
+          bodyL.lerped = new THREE.Vector3().copy(translation);
         }
         const clampedDistance = Math.max(
           0.1,
-          Math.min(1, bodyL.lerped.distanceTo(body.translation()))
+          Math.min(1, bodyL.lerped.distanceTo(translation))
         );
         bodyL.lerped.lerp(
-          body.translation(),
+          translation,
           delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed))
         );
       });
 
-      curve.points[0].copy(j3.current.translation());
       const j2L = j2.current as RapierRigidBody & { lerped?: THREE.Vector3 };
       const j1L = j1.current as RapierRigidBody & { lerped?: THREE.Vector3 };
-      curve.points[1].copy(j2L.lerped!);
-      curve.points[2].copy(j1L.lerped!);
-      curve.points[3].copy(fixed.current.translation());
+
+      if (!j2L.lerped || !j1L.lerped) return;
+
+      curve.points[0].copy(j3Pos);
+      curve.points[1].copy(j2L.lerped);
+      curve.points[2].copy(j1L.lerped);
+      curve.points[3].copy(fixedPos);
+
+      if (!curve.points.every((p) => isFiniteVec3(p))) return;
 
       const lineGeo = band.current?.geometry as MeshLineGeometry | undefined;
       const pts = curve.getPoints(isMobile ? 16 : 32);
-      lineGeo?.setPoints(pts.flatMap((p) => [p.x, p.y, p.z]));
+      const flat = pts.flatMap((p) => [p.x, p.y, p.z]);
+      if (!flat.every(Number.isFinite)) return;
+      lineGeo?.setPoints(flat);
 
       const av = card.current.angvel();
       ang.set(av.x, av.y, av.z);

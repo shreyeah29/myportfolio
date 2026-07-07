@@ -57,16 +57,16 @@ export function Skills() {
                     : "border-white/10 hover:bg-white/[0.02]"
                 }`}
               >
-                <div className="grid grid-cols-1 items-center gap-2 py-6 md:grid-cols-[60px_1fr_1fr] md:gap-4 md:py-7">
+                <div className="grid grid-cols-1 items-start gap-1 py-5 md:grid-cols-[60px_1fr_1fr] md:items-center md:gap-4 md:py-7">
                   <span
-                    className={`text-sm ${isActive ? "text-accent" : "text-accent/70"}`}
+                    className={`text-xs md:text-sm ${isActive ? "text-accent" : "text-accent/70"}`}
                   >
                     {cap.num}
                   </span>
-                  <h3 className="text-lg font-bold uppercase text-white md:text-2xl">
+                  <h3 className="text-base font-bold uppercase text-white md:text-2xl">
                     {cap.name}
                   </h3>
-                  <p className="text-sm text-white/45">{cap.summary}</p>
+                  <p className="text-xs text-white/45 md:text-sm">{cap.summary}</p>
                 </div>
 
                 <AnimatePresence initial={false}>

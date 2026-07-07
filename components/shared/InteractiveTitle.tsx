@@ -57,7 +57,7 @@ export function InteractiveTitle({ lines }: InteractiveTitleProps) {
             ? undefined
             : { rotateX: rx, rotateY: ry, x: tx, y: ty, transformStyle: "preserve-3d" }
         }
-        className="select-none text-[clamp(3.5rem,14vw,11rem)] font-bold uppercase leading-[0.82] tracking-tighter"
+        className="select-none text-[clamp(2.75rem,13vw,11rem)] font-bold uppercase leading-[0.85] tracking-tighter"
       >
         {lines.map((line, i) => (
           <span key={line.text} className="block overflow-hidden">

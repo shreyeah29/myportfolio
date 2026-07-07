@@ -21,6 +21,7 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
   const [statusIndex, setStatusIndex] = useState(0);
 
   const finish = useCallback(() => {
+    document.body.style.overflow = "";
     setDone(true);
     window.setTimeout(onComplete, 700);
   }, [onComplete]);
@@ -91,19 +92,19 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
 
             <div className="mb-6 flex items-end justify-center gap-1">
               <span
-                className="text-[clamp(4rem,18vw,9rem)] font-bold leading-none tracking-tighter text-white"
+                className="text-[clamp(3rem,16vw,9rem)] font-bold leading-none tracking-tighter text-white"
                 suppressHydrationWarning
               >
                 {displayProgress}
               </span>
-              <span className="mb-3 text-3xl text-white/35 md:mb-5 md:text-5xl">
+              <span className="mb-2 text-2xl text-white/35 md:mb-5 md:text-5xl">
                 %
               </span>
             </div>
 
-            <h1 className="text-2xl font-bold uppercase tracking-wide text-white md:text-4xl">
+            <h1 className="max-w-[16rem] text-xl font-bold uppercase leading-tight tracking-wide text-white sm:max-w-none sm:text-2xl md:text-4xl">
               Welcome to{" "}
-              <span className="text-accent">Shre Lab</span>
+              <span className="whitespace-nowrap text-accent">Shre Lab</span>
             </h1>
             <p className="mt-3 text-[10px] uppercase tracking-[0.3em] text-muted">
               Where premium websites get built

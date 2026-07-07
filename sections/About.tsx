@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { InteractiveTitle } from "@/components/shared/InteractiveTitle";
+import TrueFocus from "@/components/true-focus/TrueFocus";
 import { SectionLabel } from "@/components/shared/SectionLabel";
 import RotatingText from "@/components/rotating-text/RotatingText";
 import ScrambledText from "@/components/scrambled-text/ScrambledText";
@@ -36,7 +36,7 @@ export function About() {
   return (
     <section id="about" className="relative">
       {/* Hero intro */}
-      <div className="relative min-h-screen overflow-visible px-5 pb-10 pt-28 md:px-8 md:pt-32">
+      <div className="relative min-h-[100dvh] overflow-x-clip px-5 pb-10 pt-24 md:px-8 md:pt-32">
         {/* React Bits Lanyard — one WebGL canvas, desktop or mobile layout */}
         {!reducedMotion && showLanyard && isDesktop && (
           <div className="pointer-events-none absolute right-0 top-20 z-30 h-[min(82vh,780px)] w-[min(44vw,480px)]">
@@ -52,23 +52,40 @@ export function About() {
           </div>
         )}
 
-        <div className="relative z-10 flex min-h-[calc(100vh-8rem)] flex-col justify-between">
+        <div className="relative z-10 flex min-h-[calc(100dvh-7rem)] flex-col gap-8 md:min-h-[calc(100vh-8rem)] md:justify-between md:gap-0">
           <div className="max-w-3xl">
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.8 }}
-              className="mb-8 text-[10px] uppercase tracking-[0.3em] text-accent"
+              className="mb-6 max-w-xs text-[9px] uppercase leading-relaxed tracking-[0.22em] text-accent sm:mb-8 sm:max-w-none sm:text-[10px] sm:tracking-[0.3em]"
             >
               [ Initializing — Portfolio_2026 // Shre Lab Online ]
             </motion.p>
 
-            <InteractiveTitle
-              lines={[
-                { text: "Build" },
-                { text: "Bold", accent: true },
-              ]}
-            />
+            {reducedMotion ? (
+              <h1 className="font-sans text-[clamp(2.75rem,13vw,11rem)] font-bold uppercase leading-[0.88] tracking-tighter text-white">
+                <span className="block">Design.</span>
+                <span className="block">Develop.</span>
+                <span className="block">Deliver.</span>
+              </h1>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <TrueFocus
+                  sentence="Design. Develop. Deliver."
+                  blurAmount={5}
+                  borderColor="#c3f53c"
+                  glowColor="rgba(195, 245, 60, 0.55)"
+                  animationDuration={0.6}
+                  pauseBetweenAnimations={1.2}
+                  className="focus-container--hero"
+                />
+              </motion.div>
+            )}
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -91,18 +108,18 @@ export function About() {
           </div>
 
           {!reducedMotion && showLanyard && !isDesktop && (
-            <div className="pointer-events-auto mt-10 h-[min(520px,58vh)] w-full">
+            <div className="pointer-events-auto -mx-2 h-[min(440px,52dvh)] w-[calc(100%+1rem)] sm:mx-0 sm:h-[min(480px,55dvh)] sm:w-full">
               <Lanyard
-                position={[0, 0, 22]}
+                position={[0, 0, 13]}
                 gravity={[0, -40, 0]}
-                fov={20}
+                fov={28}
                 frontImage="/shreya.png"
                 cardVariant="shrelab"
               />
             </div>
           )}
 
-        <div className="flex items-end justify-between">
+        <div className="mt-auto flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -133,7 +150,10 @@ export function About() {
       </div>
 
       {/* About detail */}
-      <div className="border-t border-white/10 px-5 py-24 md:px-8 md:py-32">
+      <div
+        id="about-details"
+        className="border-t border-white/10 px-5 py-24 md:px-8 md:py-32"
+      >
         <div className="mx-auto max-w-[1400px]">
           <SectionLabel
             num="01"
@@ -146,11 +166,11 @@ export function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-12 h-[clamp(200px,32vw,380px)] min-h-[180px] md:mb-20"
+            className="mb-10 h-[clamp(120px,24vw,380px)] min-h-[100px] md:mb-20 md:min-h-[180px]"
           >
-            {reducedMotion ? (
+            {reducedMotion || !isDesktop ? (
               <h2
-                className="outline-text text-[clamp(3rem,12vw,9rem)] font-bold uppercase leading-[0.9] tracking-tighter"
+                className="outline-text text-[clamp(2.75rem,14vw,9rem)] font-bold uppercase leading-[0.9] tracking-tighter"
                 aria-label="Obsessive"
               >
                 Obsessive
@@ -179,7 +199,7 @@ export function About() {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <p className="font-sans text-[clamp(1.75rem,4.5vw,3rem)] font-bold leading-[1.15] tracking-[-0.02em] text-white">
+              <p className="font-sans text-[clamp(1.35rem,5.5vw,3rem)] font-bold leading-[1.2] tracking-[-0.02em] text-white">
                 I&apos;m Shreya —{" "}
                 <RotatingText
                   texts={[...ABOUT_BIO.rotatingTexts]}

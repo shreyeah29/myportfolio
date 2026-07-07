@@ -16,3 +16,7 @@
   touch-action: none;
   background: transparent !important;
 }
+
+.lanyard-wrapper canvas[data-engine] {
+  background-color: transparent !important;
+}
