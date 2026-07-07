@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
-import { LoaderIcon } from "@/components/shared/LoaderIcon";
+import { HamsterLoader } from "@/components/shared/HamsterLoader";
 import { SITE } from "@/lib/constants";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
@@ -88,7 +88,7 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
 
           {/* center */}
           <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
-            <LoaderIcon />
+            <HamsterLoader />
 
             <div className="mb-6 flex items-end justify-center gap-1">
               <span

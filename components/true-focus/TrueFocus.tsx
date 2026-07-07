@@ -14,6 +14,7 @@ export interface TrueFocusProps {
   animationDuration?: number;
   pauseBetweenAnimations?: number;
   className?: string;
+  accentWords?: string[];
 }
 
 export default function TrueFocus({
@@ -26,6 +27,7 @@ export default function TrueFocus({
   animationDuration = 0.5,
   pauseBetweenAnimations = 1,
   className = "",
+  accentWords = [],
 }: TrueFocusProps) {
   const words = sentence.split(separator).filter(Boolean);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -93,13 +95,18 @@ export default function TrueFocus({
     >
       {words.map((word, index) => {
         const isActive = index === currentIndex;
+        const isAccent = accentWords.some(
+          (accent) =>
+            word.toLowerCase() === accent.toLowerCase() ||
+            word.toLowerCase().startsWith(accent.toLowerCase())
+        );
         return (
           <span
             key={`${word}-${index}`}
             ref={(el) => {
               wordRefs.current[index] = el;
             }}
-            className={`focus-word ${isActive ? "active" : ""}`}
+            className={`focus-word ${isActive ? "active" : ""} ${isAccent ? "focus-word--accent" : ""}`}
             style={{
               filter: isActive ? "blur(0px)" : `blur(${blurAmount}px)`,
               transition: `filter ${animationDuration}s ease`,

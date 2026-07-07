@@ -29,11 +29,16 @@
 
 .focus-container--hero .focus-word {
   font-family: var(--font-syne), system-ui, sans-serif;
-  font-size: clamp(2.75rem, 13vw, 11rem);
+  font-size: clamp(2.1rem, 9.5vw, 8rem);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: -0.03em;
   line-height: 0.88;
+}
+
+.focus-word--accent,
+.focus-word.active.focus-word--accent {
+  color: var(--accent);
 }
 
 .focus-word.active {

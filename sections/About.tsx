@@ -64,10 +64,10 @@ export function About() {
             </motion.p>
 
             {reducedMotion ? (
-              <h1 className="font-sans text-[clamp(2.75rem,13vw,11rem)] font-bold uppercase leading-[0.88] tracking-tighter text-white">
+              <h1 className="font-sans text-[clamp(2.1rem,9.5vw,8rem)] font-bold uppercase leading-[0.88] tracking-tighter text-white">
                 <span className="block">Design.</span>
                 <span className="block">Develop.</span>
-                <span className="block">Deliver.</span>
+                <span className="block text-accent">Deliver.</span>
               </h1>
             ) : (
               <motion.div
@@ -77,6 +77,7 @@ export function About() {
               >
                 <TrueFocus
                   sentence="Design. Develop. Deliver."
+                  accentWords={["Deliver"]}
                   blurAmount={5}
                   borderColor="#c3f53c"
                   glowColor="rgba(195, 245, 60, 0.55)"
